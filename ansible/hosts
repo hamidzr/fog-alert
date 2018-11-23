@@ -1,0 +1,4 @@
+pi0 ansible_host=pi0w.local
+
+[pies]
+pi3.local
