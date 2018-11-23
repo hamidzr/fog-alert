@@ -38,9 +38,7 @@
         state: latest
 
     - name: install pipenv
-      pip:
-        name: pipenv
-        state: present
+      raw: 'pip3 install pipenv' # use pip3
 
     - name: copy dotfiles to setup shell
       become: false
