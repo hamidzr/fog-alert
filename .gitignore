@@ -1,4 +1,5 @@
 *.retry
 *.log
 *.pyc
+*.ini
 .env
