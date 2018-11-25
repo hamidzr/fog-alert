@@ -2,20 +2,28 @@
 
 # provides communication between the edge node and the server
 
-from StringIO import StringIO
-from PIL import ImageGrab
+import requests
+import os, sys
+import configparser
 
-def send_image():
-  content_type = 'image/jpeg'
-  headers = {'content-type': content_type}
+config = configparser.ConfigParser()
+config.sections()
+config.read('config.ini')
 
-  screen = ImageGrab.grab()
-  img = stringIO()
-  screen.save(img, 'JPEG')
-  img.seek(0)
-  fd = open('screen.jpg', 'wb')
-  fd.write(img.getvalue())
-  fd.close()
-  fin = open('screen.jpg', 'wb')
-  files = {'file': ('test.jpg', img, content_type)}
-  requests.post('http://localhost/upload', files=files)
+SERVER_URL = config['DEFAULT']['SERVER_URL']
+
+def post_file(file_path):
+  filename = os.path.basename(file_path)
+
+  multipart_form_data = {
+    'file': (filename, open(file_path, 'rb'))
+  }
+
+  response = requests.post(SERVER_URL, files=multipart_form_data)
+
+  # keys = [key for key in response]
+  # print(keys)
+  print(response.status_code)
+
+if __name__ == '__main__':
+  post_file(sys.argv[1])
