@@ -17,9 +17,15 @@ def test_post():
 
 @app.route('/upload', methods=['POST'])
 def upload():
+
+  print(request.files)
+  if 'file' not in request.files:
+    return '"file" field does not exist.'
+
   posted_file = request.files['file']
-  filename = 'afilename'
-  posted_file.save(os.path.join('uploads'), filename)
+  posted_file.save(sanitize_name(posted_file))
+
+  return 'file saved.'
 
 @app.route('/')
 def hello():
