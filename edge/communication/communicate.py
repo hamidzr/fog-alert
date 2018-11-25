@@ -1,16 +1,9 @@
-from picamera import PiCamera
-from time import sleep
-from PIL import ImageGrab
+#!/bin/end python
+
+# provides communication between the edge node and the server
+
 from StringIO import StringIO
-
-camera = PiCamera()
-
-for i in range(5):
-  sleep(5)
-  camera.capture('/home/pi/image%s.jpg' % i)
-  camera.stop_preview()
-
-
+from PIL import ImageGrab
 
 def send_image():
   content_type = 'image/jpeg'
