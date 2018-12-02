@@ -16,7 +16,7 @@ facilitates pub sub communication in the system
 
 
 ### intrusion response
-nodemcu / raspberry pi module subscribing to alerts from the ai powered analyzer.
+iot module subscribing to alerts from the AI powered analyzer.
 responsible for responding to detected threats.
 
 
@@ -28,6 +28,12 @@ different parts are designed to work and communicate separately, this is not the
 use `config.ini` files in to setup the communication (in `edge/communication/`) and the server app (in `server/`)
 
 ## installation
-we use [pipenv](https://pipenv.readthedocs.io/en/latest/) for managing python environments.
+### general
+we use [pipenv](https://pipenv.readthedocs.io/en/latest/) for managing python environments. Use pipenv to handle, install and run the python parts of the framework
 
 whereever you see a `Pipfile` you'll need to run `pipenv install` to install the dependencies. Then use `pipenv run python PYTHONFILEHERE` to execute a python script
+
+### pubsub broker
+run the following command to start a "mosquitto" broker in docker.
+`docker run -d --name mqtt-broker -p 1883:1883 -p 9001:9001 eclipse-mosquitto`
+don't forget to open ports 1883 and 9001 to the publishers and subscribers
