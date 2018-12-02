@@ -3,6 +3,8 @@
 CC Project
 
 
+## discussion
+different parts are designed to work and communicate separately, this is not the most efficient way of building this system but it would allow total separation of task plus would let us use different languages and technologies and mix and match easily.
 
 ## configuration
 use `config.ini` files in to setup the communication (in `edge/communication/`) and the server app (in `server/`)
