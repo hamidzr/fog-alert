@@ -1,4 +1,6 @@
 from flask import request, Flask
+from detect import has_intruder
+from communicate import trigger_response
 import configparser
 import os
 
@@ -28,9 +30,13 @@ def upload():
     return '"file" field does not exist.'
 
   posted_file = request.files['file']
-  posted_file.save(UPLOAD_DIR + '/' + sanitize_name(posted_file))
-
-  return 'file saved.'
+  file_name = sanitize_name(posted_file)
+  save_path = UPLOAD_DIR + '/' + file_name
+  posted_file.save(save_path)
+  detected = has_intruder(save_path)
+  # TODO trigger w/o blocking or trigger response elsewhere
+  if detected: trigger_response()
+  return str(detected)
 
 @app.route('/')
 def hello():
