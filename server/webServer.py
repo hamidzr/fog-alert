@@ -1,11 +1,16 @@
 from flask import request, Flask
 import configparser
 import os
+
+# load configuration in
 config = configparser.ConfigParser()
 config.sections()
 config.read('config.ini')
 
+UPLOAD_DIR='./uploads'
+
 def sanitize_name(uploaded_file):
+  # TODO SEC actually sanitize
   return uploaded_file.filename
 
 app = Flask(__name__)
@@ -23,7 +28,7 @@ def upload():
     return '"file" field does not exist.'
 
   posted_file = request.files['file']
-  posted_file.save(sanitize_name(posted_file))
+  posted_file.save(UPLOAD_DIR + '/' + sanitize_name(posted_file))
 
   return 'file saved.'
 
