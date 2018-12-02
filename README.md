@@ -37,3 +37,8 @@ whereever you see a `Pipfile` you'll need to run `pipenv install` to install the
 run the following command to start a "mosquitto" broker in docker.
 `docker run -d --name mqtt-broker -p 1883:1883 -p 9001:9001 eclipse-mosquitto`
 don't forget to open ports 1883 and 9001 to the publishers and subscribers
+
+
+
+## TODO
+- [ ] use a logger instead of print statements
