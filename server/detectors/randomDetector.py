@@ -12,7 +12,6 @@ import time
 
 
 # gets an image path
-# TODO implement detection
 def has_intruder(image_path):
   with open(image_path, 'rb') as image:
     print('doing intrusion detection magic..')
