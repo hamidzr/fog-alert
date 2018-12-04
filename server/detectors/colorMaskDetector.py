@@ -28,7 +28,10 @@ def blue_count(image_path):
   return color_count(image_path, BLUE_MIN, BLUE_MAX)
 
 def has_intruder(image_path):
-  return red_count(image_path) / float(pixel_count(image_path)) > 0.3
+  THRESHOLD = 0.2
+  red_ratio = red_count(image_path) / float(pixel_count(image_path))
+  print(red_ratio)
+  return  red_ratio > THRESHOLD
 
 
 if __name__ == '__main__':
