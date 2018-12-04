@@ -41,4 +41,9 @@ don't forget to open ports 1883 and 9001 to the publishers and subscribers
 
 
 ## TODO
+- [x] implement and test different components separately
+- [ ] scheduled image capturing
+- [ ] integration tests
 - [ ] use a logger instead of print statements
+- [ ] Ansible support
+
