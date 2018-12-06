@@ -4,13 +4,7 @@
 
 import requests
 import os, sys
-import configparser
-
-config = configparser.ConfigParser()
-config.sections()
-config.read('config.ini')
-
-SERVER_URL = config['DEFAULT']['SERVER_URL']
+SERVER_URL = os.environ.get('SERVER_URL', 'http://10.0.0.14:5000/upload')
 
 def post_file(file_path):
   filename = os.path.basename(file_path)
