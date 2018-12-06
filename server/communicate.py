@@ -19,6 +19,7 @@ def on_message(client, userdata, message):
 def trigger_response():
   print("publishing the threat")
   mqtt_client.publish(TOPIC,"detected")
+  time.sleep(0.2)
 
 # connect to the broker
 print("connecting to broker ",BROKER)
