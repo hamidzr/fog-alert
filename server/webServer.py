@@ -45,4 +45,5 @@ def hello():
 
 if __name__ == '__main__':
   app.run(port=config['DEFAULT'].get('PORT', 5000),
-          debug=config['DEFAULT'].get('DEBUG', True))
+          debug=config['DEFAULT'].get('DEBUG', True),
+         host= '0.0.0.0')
