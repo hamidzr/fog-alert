@@ -18,8 +18,8 @@ def color_count(image_path, minBgr, maxBgr):
   return color_count
 
 def red_count(image_path):
-  RED_MIN = np.array([0, 0, 200], np.uint8)
-  RED_MAX = np.array([50, 50, 255], np.uint8)
+  RED_MIN = np.array([0, 0, 100], np.uint8)
+  RED_MAX = np.array([100, 100, 255], np.uint8)
   return color_count(image_path, RED_MIN, RED_MAX)
 
 def blue_count(image_path):
@@ -28,9 +28,10 @@ def blue_count(image_path):
   return color_count(image_path, BLUE_MIN, BLUE_MAX)
 
 def has_intruder(image_path):
-  THRESHOLD = 0.2
-  red_ratio = red_count(image_path) / float(pixel_count(image_path))
-  print(red_ratio)
+  THRESHOLD = 0.1
+  r_count = red_count(image_path)
+  red_ratio = r_count / float(pixel_count(image_path))
+  print(f'red count: {r_count}, red ratio: {red_ratio}')
   return  red_ratio > THRESHOLD
 
 
