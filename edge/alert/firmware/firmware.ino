@@ -5,9 +5,9 @@
 #include <PubSubClient.h>
 
 // settings
-// WiFi
-const char* ssid = "newHope";
-const char* password = "vandyville";
+// WiFi # CHANGE ME
+const char* ssid = "SSID";
+const char* password = "PASS";
 
 // OTA updates
 const char* nodeName = "alert";
