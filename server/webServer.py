@@ -1,5 +1,5 @@
 from flask import request, Flask
-import detectors.colorMaskDetector as colorMaskDetector
+from detectors.colorMaskDetector import has_intruder
 from communicate import trigger_response
 import configparser
 import os
@@ -33,7 +33,7 @@ def upload():
   file_name = sanitize_name(posted_file)
   save_path = UPLOAD_DIR + '/' + file_name
   posted_file.save(save_path)
-  detected = colorMaskDetector.has_intruder(save_path)
+  detected = has_intruder(save_path)
   # TODO trigger w/o blocking or trigger response elsewhere
   print('threat:', detected)
   if detected: trigger_response()
