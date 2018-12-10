@@ -17,9 +17,10 @@ def on_message(client, userdata, message):
     print("received message =",str(message.payload.decode("utf-8")))
 "localhost" #
 def trigger_response():
-  print("publishing the threat")
-  mqtt_client.publish(TOPIC,"detected")
-  time.sleep(0.2)
+  pub_msg = mqtt_client.publish(TOPIC,"detected")
+  pub_msg.wait_for_publish()
+  print('triggered response')
+  return 'publisehd'
 
 # connect to the broker
 print("connecting to broker ",BROKER)
