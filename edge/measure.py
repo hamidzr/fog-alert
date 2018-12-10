@@ -15,6 +15,9 @@ BROKER = 'broker.hivemq.com'
 # BROKER = '10.0.0.14'
 TOPIC = 'hph/threat'
 
+send_time = 0
+receive_time = 0
+
 def on_subscribe(client, userdata, mid, granted_qos):
   print("Subscribed: "+str(mid)+" "+str(granted_qos))
 
@@ -22,10 +25,11 @@ def on_subscribe(client, userdata, mid, granted_qos):
 def on_message(client, userdata, msg):
   try:
     from time import time
-    # global receive_time
-    print(time(), 'received message =', str(msg.payload.decode('utf-8')))
-    # receive_time = cur_time
-    # print('diff', receive_time - init_time)
+    global receive_time
+    cur_time = time()
+    print(cur_time, 'received message =', str(msg.payload.decode('utf-8')))
+    receive_time = cur_time
+    print('end to end took', receive_time - send_time)
   except Exception as e:
     print(e)
     raise e
@@ -53,10 +57,11 @@ signal.signal(signal.SIGINT, signal_handler)
 
 if __name__ == '__main__':
   while True:
-    print('starting..', time.time())
+    send_time = time.time()
+    print('starting..', send_time)
     # init_time =  start_time
     snap(OUT_IMAGE)
     print('posting the file')
     post_file(OUT_IMAGE)
     print('waiting')
-    time.sleep(2)
+    time.sleep(1)
