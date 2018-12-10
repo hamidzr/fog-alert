@@ -46,6 +46,8 @@ don't forget to open ports 1883 and 9001 to the publishers and subscribers
 - [x] integration tests
 - [ ] Ansible support
 - [ ] performance and timing analysis (cloud vs fog setup)
+  - [ ] unify configuration of different settings (pubsub sever settings, detector server etc): env variables
+  - [x] implement end to end time measurement
 - [ ] better ML powered threat detection: Google's quickdraw doodle classifier?
 - [ ] use a logger instead of print statements
 
