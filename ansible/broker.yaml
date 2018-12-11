@@ -1,0 +1,19 @@
+- hosts: broker
+  become: yes # become super user
+  tasks:
+    - name: install packages
+      apt: pkg={{item}} state=present update_cache=yes
+      with_items:
+        - git
+        - python-pip
+        - docker
+
+    - name: upgrade pip
+      raw: "pip install --upgrade pip"
+
+    - name: git clone repo
+      git:
+        repo: 'https://github.com/hamidzr/cc-project.git'
+        dest: ./project
+      register: git_finished
+      # when: create.changed
