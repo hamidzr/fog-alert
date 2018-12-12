@@ -2,3 +2,9 @@ pi0 ansible_host=pi0w.local
 
 [pies]
 pi3.local
+
+[broker]
+129.114.33.49   ansible_connection=ssh  ansible_user=cc
+
+[webserver]
+129.114.111.62  ansible_connection=ssh  ansible_user=cc

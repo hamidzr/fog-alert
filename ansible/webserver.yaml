@@ -2,27 +2,34 @@
   become: yes # become super user
   tasks:
     - name: install packages
-      apt: pkg={{item}} state=present update_cache=yes
-      with_items:
-        - python
-        - git
-        - python-pip
+      apt: 
+        pkg:
+          - python
+          - python3
+          - git
+          - python-pip
+          - libsm6
+          - libxrender1
+          - libfontconfig1
+        state: present
+        update_cache: yes
 
     - name: upgrade pip
       command: "pip install --upgrade pip"
 
     - name: install pipenv
-      command: "pip install --user pipenv"
+      command: "pip install -U pipenv"
 
-    - name: git clone repo
-      git:
-        repo: 'https://github.com/hamidzr/cc-project.git'
-        dest: ./project
-      register: git_finished
-      # when: create.changed
+    - name: copy webserver folder
+      copy:
+        src: ../server/.
+        dest: ./
+
+    # - name: setup vitural env
+    #   command: "pipenv shell"
     
     - name: install python dependencies
-      command: "chdir=/project/cc-project/server pipenv install"
+      command: "pipenv install --dev"
 
     - name: start up webserver
-      command: "pipenv run python webServer"
+      command: "pipenv run python webServer.py"
