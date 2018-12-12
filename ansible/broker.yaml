@@ -5,15 +5,46 @@
       apt: pkg={{item}} state=present update_cache=yes
       with_items:
         - git
-        - python-pip
-        - docker
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
 
-    - name: upgrade pip
-      raw: "pip install --upgrade pip"
+    - name: 'add docker repo apt key'
+      apt_key:
+        url: 'https://download.docker.com/linux/ubuntu/gpg'
+        id: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
+        state: 'present'
+      register: 'add_repository_key'
+      ignore_errors: true
 
-    - name: git clone repo
-      git:
-        repo: 'https://github.com/hamidzr/cc-project.git'
-        dest: ./project
-      register: git_finished
-      # when: create.changed
+    - name: 'add Docker repository'
+      apt_repository:
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable'
+        state: 'present'
+        update_cache: 'yes'
+
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: 'install docker'
+      apt:
+        name: 'docker-ce'
+        state: 'present'
+
+    - firewalld:
+      port: "{{item}}"
+      with_items:
+        - 1883/udp
+        - 9001/udp
+        - 1883/tcp
+        - 9001/tcp
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+    - name: start up docker container
+      command: "docker run -d --name mqtt-broker -p 1883:1883 -p 9001:9001 eclipse-mosquitto"
