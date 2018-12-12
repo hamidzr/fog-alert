@@ -13,7 +13,7 @@
 
     - name: include variables
       include_vars:
-        file: ansibleVariables.yaml
+        file: vars.yaml
 
     - name: setup python pip
       apt: name=python3-pip state=present
@@ -56,15 +56,5 @@
         image: CC-Ubuntu16.04-20180413
         key_name: teamhph
         flavor: m1.small
-        auto_ip: no
-      register: broker_create
-
-    - name: save broker private ip
-      copy:
-        content: "{{ broker_create.server.private_v4 }}"
-        dest: "/home/vagrant/broker.ip"
-
-    - name: update the hosts files with broker ip
-      lineinfile:
-        path: /home/vagrant/hosts
-        line: "broker ansible_host={{ broker_create.server.private_v4 }}"
+        floating_ips:
+          - "{{ ip.broker_server }}"
