@@ -1,0 +1,63 @@
+# Playbook to setup REST and broker servers
+
+# setup the local machine
+- hosts: localhost
+  connection: local
+  become: yes # become super user
+  vars:
+    auth_url: https://openstack.tacc.chameleoncloud.org:5000/v2.0
+    project_name: CH-819381
+  tasks:
+    # - name: setup python
+    #   apt: name=python state=present
+
+    - name: include variables
+      include_vars:
+        file: vars.yaml
+
+    # - name: setup python pip
+    #   apt: name=python3-pip state=present
+
+    - name: upgrade pip
+      raw: "pip3 install --upgrade pip"
+
+    - name: install python package openstacksdk
+      pip:
+        name:
+          - openstacksdk
+          - shade
+        state: present
+        extra_args: "--user"
+
+    - name: create webserver instance in openstack
+      os_server:
+        name: hph-webserver
+        state: present
+        auth:  # this is the authentication process
+          auth_url: "{{ auth_url }}"
+          username: "{{ auth.cc_username }}"
+          password: "{{ auth.cc_password }}"
+          project_name: "{{ project_name }}"
+        image: CC-Ubuntu16.04-20180413
+        key_name: master_key   # TODO:: may need to make a new key
+        flavor: m1.small
+        floating_ips:
+          - "{{ ip.web_server }}"
+
+    - name: create broker (pubsub) instance in openstack
+      os_server:
+        name: hph-broker
+        state: present
+        auth:  # this is the authentication process
+          auth_url: "{{ auth_url }}"
+          username: "{{ auth.cc_username }}"
+          password: "{{ auth.cc_password }}"
+          project_name: "{{ project_name }}"
+        image: CC-Ubuntu16.04-20180413
+        key_name: master_key
+        flavor: m1.small
+        security_groups:
+          - default
+          - pubsub
+        floating_ips:
+          - "{{ ip.broker_server }}"

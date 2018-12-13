@@ -1,0 +1,35 @@
+- hosts: webserver
+  become: yes # become super user
+  tasks:
+    - name: install packages
+      apt: 
+        pkg:
+          - python
+          - python3
+          - git
+          - python-pip
+          - libsm6
+          - libxrender1
+          - libfontconfig1
+        state: present
+        update_cache: yes
+
+    - name: upgrade pip
+      command: "pip install --upgrade pip"
+
+    - name: install pipenv
+      command: "pip install -U pipenv"
+
+    - name: copy webserver folder
+      copy:
+        src: ../server/.
+        dest: ./
+
+    # - name: setup vitural env
+    #   command: "pipenv shell"
+    
+    - name: install python dependencies
+      command: "pipenv install --dev"
+
+    - name: start up webserver
+      command: "pipenv run python webServer.py"

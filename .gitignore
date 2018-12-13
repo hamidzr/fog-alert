@@ -3,3 +3,8 @@
 *.pyc
 *.ini
 .env
+vars.yaml
+master_key
+master_key.pub
+teamhph.*
+.DS_Store

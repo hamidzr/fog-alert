@@ -1,0 +1,50 @@
+- hosts: broker
+  become: yes # become super user
+  tasks:
+    - name: install packages
+      apt: 
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: 'add docker repo apt key'
+      apt_key:
+        url: 'https://download.docker.com/linux/ubuntu/gpg'
+        id: '9DC858229FC7DD38854AE2D88D81803C0EBFCD88'
+        state: 'present'
+      register: 'add_repository_key'
+      ignore_errors: true
+
+    - name: 'add Docker repository'
+      apt_repository:
+        repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
+        state: 'present'
+        update_cache: 'yes'
+
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        # upgrade: yes
+        update_cache: yes
+
+    - name: 'install docker'
+      apt:
+        name: 'docker-ce'
+        state: 'present'
+
+    # - name: open ports
+    #   firewalld:
+    #     port:
+    #       - 1883/udp
+    #       - 9001/udp
+    #       - 1883/tcp
+    #       - 9001/tcp
+    #     permanent: true
+    #     state: enabled
+
+    - name: start up docker container
+      command: "docker run -d --name mqtt-broker -p 1883:1883 -p 9001:9001 eclipse-mosquitto"
