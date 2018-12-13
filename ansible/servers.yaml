@@ -44,20 +44,20 @@
         floating_ips:
           - "{{ ip.web_server }}"
 
-    # - name: create broker (pubsub) instance in openstack
-    #   os_server:
-    #     name: hph-broker
-    #     state: present
-    #     auth:  # this is the authentication process
-    #       auth_url: "{{ auth_url }}"
-    #       username: "{{ auth.cc_username }}"
-    #       password: "{{ auth.cc_password }}"
-    #       project_name: "{{ project_name }}"
-    #     image: CC-Ubuntu16.04-20180413
-    #     key_name: master_key
-    #     flavor: m1.small
-    #     security_groups:
-    #       - default
-    #       - pubsub
-    #     floating_ips:
-    #       - "{{ ip.broker_server }}"
+    - name: create broker (pubsub) instance in openstack
+      os_server:
+        name: hph-broker
+        state: present
+        auth:  # this is the authentication process
+          auth_url: "{{ auth_url }}"
+          username: "{{ auth.cc_username }}"
+          password: "{{ auth.cc_password }}"
+          project_name: "{{ project_name }}"
+        image: CC-Ubuntu16.04-20180413
+        key_name: master_key
+        flavor: m1.small
+        security_groups:
+          - default
+          - pubsub
+        floating_ips:
+          - "{{ ip.broker_server }}"

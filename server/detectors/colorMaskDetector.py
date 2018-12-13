@@ -31,7 +31,7 @@ def has_intruder(image_path):
   THRESHOLD = 0.1
   r_count = red_count(image_path)
   red_ratio = r_count / float(pixel_count(image_path))
-  print('red count: ' + r_count + ' red ratio: ' + red_ratio)
+  print('red count: ' + str(r_count) + ' red ratio: ' + str(red_ratio))
   return  red_ratio > THRESHOLD
 
 
